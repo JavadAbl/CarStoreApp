@@ -4,16 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CarStoreApp.Server.Controllers
-{
-    [ApiController]
-    [Route("api/[controller]/[action]")]
-    public class UserController : ControllerBase
+namespace CarStoreApp.Server.Controllers;
+
+   
+    public class UserController : BaseAPIController
     {
-        [HttpGet("{id}")]
+      [HttpGet("{id}")] 
         public IActionResult Users(string id)
         {
             return Ok(new { idd = id });
         }
     }
-}

@@ -9,4 +9,6 @@ public class User
 {
     public int Id { get; set; }
     public required string Name { get; set; }
+    public required Byte[] Password { get; set; }
+    public required Byte[] PasswordSalt { get; set; }
 }
