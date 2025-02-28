@@ -5,12 +5,9 @@ using System.Threading.Tasks;
 
 namespace CarStoreApp.Server.Entities;
 
-public class User
+public class Test
 {
     public int Id { get; set; }
     public required string Username { get; set; }
-    public required string Password { get; set; }
-    public required string PasswordSalt { get; set; }
 
-    
 }

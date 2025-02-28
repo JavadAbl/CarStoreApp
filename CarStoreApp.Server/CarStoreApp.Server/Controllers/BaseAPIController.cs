@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarStoreApp.Server.Controllers;
 
-    [ApiController]
+   /* [ApiController]
     [Route("api/[controller]")]
     public class BaseAPIController : ControllerBase
     {
        
-    }
+    }*/
