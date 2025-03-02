@@ -4,5 +4,6 @@ namespace CarStoreApp.Server.DTOs;
 
 public class UserDto
 {
-    public string  { get; set; }
+    public required string Username { get; set; }
+    public required string Token { get; set; }
 }

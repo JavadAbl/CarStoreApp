@@ -7,15 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
 using CarStoreApp.Server.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarStoreApp.Server.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class UserController(IUserService userService) : ControllerBase
+public class UserController(IUserService userService, IJWTService jwtService) : ControllerBase
 {
+
     [HttpPost]
-    public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO)
+    public async Task<ActionResult<UserDto>> Login([FromBody] LoginDTO loginDTO)
     {
         var user = await userService.FindUser(loginDTO.Username);
 
@@ -23,10 +26,13 @@ public class UserController(IUserService userService) : ControllerBase
 
         if (!VerifyHash(loginDTO.Password, user.Password))
             return Unauthorized("Incorrect Password");
-        return Ok(user);
+
+        var token = jwtService.createToken(user);
+
+        return Ok(new UserDto { Username= user.Username, Token =token });
     }
 
-
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> Register([FromBody] RegisterDTO registerDTO)
     {
@@ -41,7 +47,10 @@ public class UserController(IUserService userService) : ControllerBase
         var user = new User { Username = registerDTO.Username.ToLower(), Password = password };
         var userEntity = await userService.SaveUser(user);
 
-        return Ok(userEntity);
+
+        var token = jwtService.createToken(user);
+
+        return Ok(new UserDto { Username = user.Username, Token = token });
 
 
     }

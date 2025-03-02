@@ -1,22 +1,18 @@
-using CarStoreApp.Server.Data;
-using CarStoreApp.Server.Interfaces;
-using CarStoreApp.Server.Services;
-using Microsoft.EntityFrameworkCore;
+using CarStoreApp.Server.Extentions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
-builder.Services.AddDbContext<AppDBContext>(op =>
-{
-    op.UseSqlite(builder.Configuration.GetConnectionString("main"));
-
-}, ServiceLifetime.Singleton);
 
 //Services--------------------------------------------------------
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IJWTService, JWTService>();
+builder.Services.AddAppDbService(builder.Configuration);
+builder.Services.AddAppServices();
+builder.Services.AddAppAuth(builder.Configuration);
 
 var app = builder.Build();
 
-app.MapControllers();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 app.Run();
