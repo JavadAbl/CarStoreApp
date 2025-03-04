@@ -12,11 +12,14 @@ export class UserService {
   http = inject(HttpClient);
   user = signal<User | null>(null);
 
-  setUser(value) {}
+  setUser(value: User) {
+    this.user.set(value);
+  }
+
   login(loginDto: LoginDto) {
-    return this.http.post(BASE_URL + `user/login`, loginDto).pipe(
+    return this.http.post<User>(BASE_URL + `user/login`, loginDto).pipe(
       tap((response) => {
-        this.setUser(response); // Set the user based on the response
+        this.setUser(response);
       })
     );
   }
