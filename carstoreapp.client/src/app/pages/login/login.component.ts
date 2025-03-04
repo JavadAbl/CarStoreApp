@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { UserService } from '../../services/user.service';
+import { LoginDto } from '../../dtos/login.dto';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +10,16 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  username = signal('s');
-  password = signal('s');
+  /* username = signal('1');
+  password = signal('1'); */
+  loginDto = signal<LoginDto>({ username: '1', password: '1' });
+  userService = inject(UserService);
 
   login() {
-    console.log(this.username(), this.password());
+    this.userService.login(this.loginDto()).subscribe({
+      next(value) {
+        console.log(value);
+      },
+    });
   }
 }
