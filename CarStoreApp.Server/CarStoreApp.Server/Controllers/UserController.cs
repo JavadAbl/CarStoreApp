@@ -16,7 +16,7 @@ namespace CarStoreApp.Server.Controllers;
 [Route("api/[controller]/[action]")]
 public class UserController(IUserService userService, IJWTService jwtService) : ControllerBase
 {
-
+    [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult<UserDto>> Login([FromBody] LoginDTO loginDTO)
     {
@@ -29,7 +29,7 @@ public class UserController(IUserService userService, IJWTService jwtService) : 
 
         var token = jwtService.createToken(user);
 
-        return Ok(new UserDto { Username= user.Username, Token =token });
+        return Ok(new UserDto { Username = user.Username, Token = token });
     }
 
     [AllowAnonymous]
