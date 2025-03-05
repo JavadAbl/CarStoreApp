@@ -10,8 +10,6 @@ import { LoginDto } from '../../dtos/login.dto';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  /* username = signal('1');
-  password = signal('1'); */
   loginDto = signal<LoginDto>({ username: '1', password: '1' });
   userService = inject(UserService);
 
