@@ -1,12 +1,25 @@
+using CarStoreApp.Server.Controllers.Filters;
 using CarStoreApp.Server.Extentions;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddControllers();
+
+//Controllers--------------------------------------------------------
+builder.Services.AddControllers(op =>
+{
+    op.Filters.Add<ValidationFilter>();
+});
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
+
 
 //Services--------------------------------------------------------
 builder.Services.AddAppDbService(builder.Configuration);
 builder.Services.AddAppServices();
 builder.Services.AddAppAuth(builder.Configuration);
+// builder.Services.AddScoped<ValidationFilter>();
 
 builder.Services.AddCors(options =>
 {
@@ -16,6 +29,7 @@ builder.Services.AddCors(options =>
                         .AllowAnyHeader());
 });
 
+//App--------------------------------------------------------
 var app = builder.Build();
 
 app.UseCors("AllowAll");

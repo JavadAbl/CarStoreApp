@@ -8,8 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using BCrypt.Net;
 using CarStoreApp.Server.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using CarStoreApp.Server.Controllers.Filters;
 
 namespace CarStoreApp.Server.Controllers;
+
 
 [Authorize]
 [ApiController]
@@ -20,12 +22,13 @@ public class UserController(IUserService userService, IJWTService jwtService) : 
     [HttpPost]
     public async Task<ActionResult<UserDto>> Login([FromBody] LoginDTO loginDTO)
     {
+    
         var user = await userService.FindUser(loginDTO.Username);
 
-        if (user == null) return Unauthorized("user not found");
+        if (user == null) return BadRequest("user not found");
 
         if (!VerifyHash(loginDTO.Password, user.Password))
-            return Unauthorized("Incorrect Password");
+            return BadRequest("Incorrect Password");
 
         var token = jwtService.createToken(user);
 
