@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   NgbCollapseModule,
   NgbDropdown,
   NgbDropdownModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,4 +14,9 @@ import {
 })
 export class NavbarComponent {
   isMenuCollapsed = true;
+  userService = inject(UserService);
+
+  handleLogout() {
+    this.userService.logout();
+  }
 }

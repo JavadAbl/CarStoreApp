@@ -34,7 +34,11 @@
         </li>
       </ul>
 
+      @if (userService.user()) {
+      <button class="btn btn-primary" (click)="handleLogout()">Logout</button>
+      } @else {
       <button class="btn btn-primary">Login</button>
+      }
     </div>
   </div>
 </nav>

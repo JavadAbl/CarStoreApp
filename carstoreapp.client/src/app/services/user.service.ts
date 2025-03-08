@@ -6,6 +6,7 @@ import { User } from '../models/user.model';
 import { tap } from 'rxjs';
 import { UserDto } from '../dtos/user.dto';
 import { RegisterDto } from '../dtos/register.dto';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ import { RegisterDto } from '../dtos/register.dto';
 export class UserService {
   http = inject(HttpClient);
   user = signal<User | null>(null);
+  router = inject(Router);
 
   setUser(userDto: UserDto) {
     localStorage.setItem('token', userDto.token);
@@ -42,5 +44,6 @@ export class UserService {
   logout() {
     localStorage.removeItem('token');
     this.user.set(null);
+    this.router.navigateByUrl('login', { replaceUrl: true });
   }
 }
