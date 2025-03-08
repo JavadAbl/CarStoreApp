@@ -1,5 +1,6 @@
 using CarStoreApp.Server.Controllers.Filters;
 using CarStoreApp.Server.Extentions;
+using CarStoreApp.Server.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,8 @@ builder.Services.AddCors(options =>
 
 //App--------------------------------------------------------
 var app = builder.Build();
+
+app.UseMiddleware<ErrorMiddleware>();
 
 app.UseCors("AllowAll");
 app.UseRouting();

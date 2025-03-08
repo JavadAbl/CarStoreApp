@@ -22,7 +22,8 @@ public class UserController(IUserService userService, IJWTService jwtService) : 
     [HttpPost]
     public async Task<ActionResult<UserDto>> Login([FromBody] LoginDTO loginDTO)
     {
-    
+
+        // throw new Exception("sd");
         var user = await userService.FindUser(loginDTO.Username);
 
         if (user == null) return BadRequest("user not found");
