@@ -1,38 +1,63 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { BASE_URL } from '../../constants';
 import { LoginDto } from '../dtos/login.dto';
 import { User } from '../models/user.model';
 import { tap } from 'rxjs';
-import { UserDto } from '../dtos/user.dto';
 import { RegisterDto } from '../dtos/register.dto';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserDto } from '../dtos/user.dto';
+import { constants } from '../../constants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
+  private readonly BASE_URL = constants.BASE_URL;
   http = inject(HttpClient);
   user = signal<User | null>(null);
+  isLoggedIn = signal<boolean>(false);
   router = inject(Router);
 
-  setUser(userDto: UserDto) {
+  /*  ngOnInit() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.http
+        .get<UserDto>(BASE_URL + `user/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .pipe(
+          tap((userDto) => {
+            if (userDto) {
+              this.setUser(userDto);
+              this.isLoggedIn.set(true);
+            }
+          })
+        )
+        .subscribe();
+    } else {
+      this.isLoggedIn.set(false);
+    }
+  } */
+
+  private setUser(userDto: UserDto) {
     localStorage.setItem('token', userDto.token);
-    this.user.set({ username: userDto.username });
+    this.user.set(userDto);
   }
 
   register(loginDto: RegisterDto) {
-    return this.http.post<UserDto>(BASE_URL + `user/register`, loginDto).pipe(
-      tap((userDto) => {
-        if (userDto) {
-          this.setUser(userDto);
-        }
-      })
-    );
+    return this.http
+      .post<UserDto>(this.BASE_URL + `user/register`, loginDto)
+      .pipe(
+        tap((userDto) => {
+          if (userDto) {
+            this.setUser(userDto);
+          }
+        })
+      );
   }
 
   login(loginDto: LoginDto) {
-    return this.http.post<UserDto>(BASE_URL + `user/login`, loginDto).pipe(
+    return this.http.post<UserDto>(this.BASE_URL + `user/login`, loginDto).pipe(
       tap((userDto) => {
         if (userDto) {
           this.setUser(userDto);

@@ -1,0 +1,27 @@
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Our New Cars</h1>
+  <div class="row">
+    @for (car of cars; track car.id.toString()) {
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="overflow-hidden">
+          <a [routerLink]="['/car/', car.id]">
+            <img
+              [src]="car.photos[0].url"
+              class="card-img-top img-thumbnail img"
+              alt="Product 1"
+            />
+          </a>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ car.name }}</h5>
+          <p class="card-text">{{ car.price }}</p>
+          <a href="#" class="btn btn-primary">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+
+    }
+  </div>
+</div>

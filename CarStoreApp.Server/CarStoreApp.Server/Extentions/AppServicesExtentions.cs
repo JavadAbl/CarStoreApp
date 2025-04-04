@@ -1,6 +1,9 @@
 ﻿using System.Text;
 using CarStoreApp.Server.Data;
-using CarStoreApp.Server.Interfaces;
+using CarStoreApp.Server.Data.Repositories;
+using CarStoreApp.Server.Helpers;
+using CarStoreApp.Server.Interfaces.Repositories;
+using CarStoreApp.Server.Interfaces.Services;
 using CarStoreApp.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +17,9 @@ namespace CarStoreApp.Server.Extentions
         public static IServiceCollection AddAppServices(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ICarService, CarService>();
             services.AddScoped<IJWTService, JWTService>();
+            services.AddAutoMapper(typeof(AutoMapperProfiles));
             return services;
         }
 
@@ -25,6 +30,11 @@ namespace CarStoreApp.Server.Extentions
                  op.UseSqlite(config.GetConnectionString("main"));
 
              }, ServiceLifetime.Scoped);
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICarRepository, CarRepository>();
+
+
             return services;
         }
 

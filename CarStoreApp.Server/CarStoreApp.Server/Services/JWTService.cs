@@ -1,19 +1,14 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
-using CarStoreApp.Server.Entities;
-using CarStoreApp.Server.Interfaces;
+using CarStoreApp.Server.Interfaces.Services;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CarStoreApp.Server.Services
 {
     public class JWTService(IConfiguration config) : IJWTService
     {
-        public string createToken(User user)
+        public string createToken(string username)
         {
             var jwtSettings = config.GetSection("JWT").Get<JWTSettings>() ?? throw new Exception("Cannot get jwt config");
 
@@ -21,7 +16,7 @@ namespace CarStoreApp.Server.Services
 
             var claims = new List<Claim>
             {
-             new (ClaimTypes.NameIdentifier,user.Username)
+             new (ClaimTypes.NameIdentifier,username)
             };
 
             var signingCredentials = new SigningCredentials(tokenKey, SecurityAlgorithms.HmacSha256Signature);

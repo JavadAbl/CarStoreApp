@@ -1,28 +1,47 @@
-﻿namespace CarStoreApp.Server.Middlewares
-{
-    public class ErrorMiddleware
-    {
-        private readonly RequestDelegate _next;
+﻿using System.Text.Json.Serialization;
+using CarStoreApp.Server.Helpers;
 
-        public ErrorMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
+namespace CarStoreApp.Server.Middlewares
+{
+    public class ErrorMiddleware(RequestDelegate next, IWebHostEnvironment env)
+    {
+
 
         public async Task Invoke(HttpContext ctx)
         {
             try
             {
-                await _next(ctx);
-
+                await next(ctx);
             }
             catch (Exception ex)
             {
-                await ctx.Response.WriteAsJsonAsync(new { Message = ex.Message, StatusCode = ctx.Response.StatusCode, StackTrace = ex.StackTrace });
 
+                dynamic errObj = ex;
+                var statusCode = errObj.GetType().GetProperty("StatusCode");
+                if (statusCode != null)
+                {
+                    statusCode = errObj.StatusCode;
+                }
+                else
+                    statusCode = 500;
+
+                ctx.Response.StatusCode = statusCode;
+
+                var errorResponse = new ErrorResponse
+                {
+                    Message = ex.Message,
+                    StatusCode = statusCode,
+                    StackTrace = env.IsDevelopment() ? ex.StackTrace : null
+                };
+
+                ctx.Response.ContentType = "application/json";
+
+                await ctx.Response.WriteAsJsonAsync(errorResponse);
             }
         }
     }
+
+  
 
     public static class ErrorExtensions
     {

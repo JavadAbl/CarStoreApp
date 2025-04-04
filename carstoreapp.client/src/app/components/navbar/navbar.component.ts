@@ -16,6 +16,10 @@ export class NavbarComponent {
   isMenuCollapsed = true;
   userService = inject(UserService);
 
+  handleLogin() {
+    this.userService.router.navigateByUrl('login');
+  }
+
   handleLogout() {
     this.userService.logout();
   }

@@ -1,0 +1,39 @@
+using CarStoreApp.Server.DTOs;
+using CarStoreApp.Server.Interfaces.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CarStoreApp.Server.Controllers;
+
+
+// [Authorize]
+[ApiController]
+[Route("api/[controller]/[action]")]
+public class CarsController(ICarService carService) : ControllerBase
+{
+    // [AllowAnonymous]
+    [HttpPost]
+    public async Task<ActionResult<CarDto>> Create([FromBody] CreateCarDto createCarDto)
+    {
+        var car = await carService.CreateCar(createCarDto);
+
+        return Ok(car);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<CarDto>>> GetAll()
+    {
+        var cars = await carService.FindCars();
+
+        return Ok(cars);
+    }
+
+     [HttpGet("/api/cars/{id}")]
+    public async Task<ActionResult<CarDto>> GetById(int id)
+    {
+        var car = await carService.FindCarById(id);
+
+        return Ok(car );
+    }
+
+
+}

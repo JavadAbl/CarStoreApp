@@ -18,7 +18,7 @@ public class ValidationFilter : IActionFilter
             .SelectMany(v => v.Errors)
             .Select(e => e.ErrorMessage)
             .ToList();
-            context.Result = new BadRequestObjectResult(new { Message = "Validation failed", Errors = errors });
+            context.Result = new BadRequestObjectResult(new { StatusCode = 400, Errors = errors });
 
         }
     }
