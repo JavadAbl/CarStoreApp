@@ -12,7 +12,9 @@ public class AutoMapperProfiles : Profile
         CreateMap<CarPhoto, CarPhotoDto>();
         CreateMap<CreateCarDto, Car>();
         CreateMap<CreateCarPhotoDto, CarPhoto>();
-      
+
+        CreateMap<UpdateCarDto, Car>();
+
 
         CreateMap<User, UserDto>();
         CreateMap<User, RegisterDTO>();

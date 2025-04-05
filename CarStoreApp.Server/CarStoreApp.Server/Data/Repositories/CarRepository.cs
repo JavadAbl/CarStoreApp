@@ -3,7 +3,9 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using CarStoreApp.Server.DTOs;
 using CarStoreApp.Server.Entities;
+using CarStoreApp.Server.Helpers.Errors;
 using CarStoreApp.Server.Interfaces.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarStoreApp.Server.Data.Repositories;
@@ -40,9 +42,16 @@ public class CarRepository(AppDBContext db, IMapper mapper) : ICarRepository
         return _car;
     }
 
-    public Task<Car> UpdateAsync(Car car)
+    public async Task UpdateAsync(UpdateCarDto updateCarDto)
     {
-        throw new NotImplementedException();
+        var car = await db.Cars.FirstOrDefaultAsync(x => x.Id == updateCarDto.Id);
+        if (car == null)
+        {
+            throw new NotFoundHttpException("Car not found");
+        }
+
+        mapper.Map(updateCarDto, car);
+        await db.SaveChangesAsync();
     }
 }
 

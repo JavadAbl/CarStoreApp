@@ -7,6 +7,8 @@ public interface ICarService :IBaseService
 {
     Task<CarDto> CreateCar(CreateCarDto createCarDto);
 
+    Task UpdateCar(UpdateCarDto updateCarDto);
+
     Task<IEnumerable<CarDto>> FindCars();
 	
 	 Task<CarDto> FindCarById(int id);

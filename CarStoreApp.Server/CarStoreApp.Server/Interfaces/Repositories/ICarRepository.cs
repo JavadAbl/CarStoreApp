@@ -12,7 +12,7 @@ public interface ICarRepository
 
     Task<Car> InsertAsync(Car car);
 
-    Task<Car> UpdateAsync(Car car);
+    Task UpdateAsync(UpdateCarDto updateCarDto);
 
     Task<Car> DeleteAsync(Car car);
 }

@@ -1,4 +1,6 @@
+using CarStoreApp.Server.Data;
 using CarStoreApp.Server.DTOs;
+using CarStoreApp.Server.Entities;
 using CarStoreApp.Server.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +10,7 @@ namespace CarStoreApp.Server.Controllers;
 // [Authorize]
 [ApiController]
 [Route("api/[controller]/[action]")]
-public class CarsController(ICarService carService) : ControllerBase
+public class CarsController(ICarService carService, AppDBContext appDB) : ControllerBase
 {
     // [AllowAnonymous]
     [HttpPost]
@@ -27,13 +29,19 @@ public class CarsController(ICarService carService) : ControllerBase
         return Ok(cars);
     }
 
-     [HttpGet("/api/cars/{id}")]
+    [HttpGet("/api/cars/{id}")]
     public async Task<ActionResult<CarDto>> GetById(int id)
     {
         var car = await carService.FindCarById(id);
 
-        return Ok(car );
+        return Ok(car);
     }
 
+    [HttpPut("/api/cars/update")]
+    public async Task<ActionResult> Update([FromBody] UpdateCarDto updateCarDto)
+    {
+       await carService.UpdateCar(updateCarDto);
+        return Ok();
+    }
 
 }

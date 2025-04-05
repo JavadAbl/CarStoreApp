@@ -1,5 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using CarStoreApp.Server.Helpers;
+﻿using CarStoreApp.Server.Helpers.Errors;
 
 namespace CarStoreApp.Server.Middlewares
 {
@@ -41,7 +40,7 @@ namespace CarStoreApp.Server.Middlewares
         }
     }
 
-  
+
 
     public static class ErrorExtensions
     {

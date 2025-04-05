@@ -18,18 +18,24 @@ public class CarService(ICarRepository carRep, IMapper mapper) : ICarService
         return insertedCarDto;
     }
 
+
+    public async Task UpdateCar(UpdateCarDto updateCarDto)
+    {
+        await carRep.UpdateAsync(updateCarDto);
+    }
+
     public async Task<IEnumerable<CarDto>> FindCars()
     {
         return await carRep.FindAsync(null);
     }
 
- public async Task<CarDto> FindCarById(int id)
- {
-	return await carRep.FindOneAsync(car=> car.Id == id);
-	 
- }
- 
- 
+    public async Task<CarDto> FindCarById(int id)
+    {
+        return await carRep.FindOneAsync(car => car.Id == id);
+
+    }
+
+
     public Task<bool> CarExists(int id)
     {
         throw new NotImplementedException();
