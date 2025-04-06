@@ -18,6 +18,10 @@
           <h5 class="card-title">{{ car.name }}</h5>
           <p class="card-text">{{ car.price }}</p>
           <a href="#" class="btn btn-primary">Add to Cart</a>
+
+          <a [routerLink]="['edit-car', car.id]" class="btn btn-warning ms-1"
+            >Edit</a
+          >
         </div>
       </div>
     </div>
