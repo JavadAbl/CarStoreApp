@@ -12,11 +12,13 @@ import { Router, RouterLink } from '@angular/router';
 export class ProductGridComponent {
   carService = inject(CarService);
   router = inject(Router);
-  cars: Car[] = [];
 
-  ngOnInit() {
-    this.carService.getCars().subscribe((cars) => (this.cars = cars));
+  constructor() {
+    if (this.carService.cars().length === 0)
+      this.carService.getCars().subscribe();
   }
+
+  ngOnInit() {}
 
   handleCarDetails(carId: number) {
     this.router.navigate(['/car', carId]);

@@ -6,7 +6,7 @@
           <h4 class="mb-0">Product Information</h4>
         </div>
         <div class="card-body">
-          <form>
+          <form #form="ngForm" (ngSubmit)="handleSubmit(form)">
             <!-- Name Field -->
             <div class="mb-3">
               <label for="name" class="form-label">Name*</label>
@@ -15,6 +15,7 @@
                 class="form-control"
                 id="name"
                 name="name"
+                [(ngModel)]="model.name"
                 required
               />
             </div>
@@ -27,6 +28,7 @@
                 id="description"
                 name="description"
                 rows="3"
+                [(ngModel)]="model.description"
               ></textarea>
             </div>
 
@@ -42,6 +44,7 @@
                   name="price"
                   step="0.01"
                   min="0"
+                  [(ngModel)]="model.price"
                   required
                 />
               </div>
@@ -56,6 +59,7 @@
                 id="quantity"
                 name="quantity"
                 min="0"
+                [(ngModel)]="model.quantity"
                 required
               />
             </div>

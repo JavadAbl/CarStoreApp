@@ -2,7 +2,7 @@
   <div class="row bg-light p-4 rounded shadow">
     <div class="col-md-6">
       <img
-        [src]="car()!.photos[0].url"
+        [src]="car()?.photos?.[0]?.url"
         class="img-fluid rounded shadow"
         alt="{{ car()?.name }}"
       />

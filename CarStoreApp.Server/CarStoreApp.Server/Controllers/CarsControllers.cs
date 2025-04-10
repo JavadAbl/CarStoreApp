@@ -34,10 +34,11 @@ public class CarsController(ICarService carService, AppDBContext appDB) : Contro
     {
         var car = await carService.FindCarById(id);
 
+   await Task.Delay(4000);
         return Ok(car);
     }
 
-    [HttpPut("/api/cars/update")]
+    [HttpPut]
     public async Task<ActionResult> Update([FromBody] UpdateCarDto updateCarDto)
     {
        await carService.UpdateCar(updateCarDto);

@@ -14,6 +14,8 @@ builder.Services.AddControllers(op =>
 {
    // Stop converting numbers
    // op.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
+   
+         //  op.JsonSerializerOptions.UnknownPropertyHandling = System.Text.Json.Serialization.JsonUnknownPropertyHandling.Skip;
 });
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>

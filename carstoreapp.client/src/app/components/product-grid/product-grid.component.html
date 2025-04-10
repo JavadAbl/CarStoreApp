@@ -1,11 +1,11 @@
 <div class="container mt-5">
   <h1 class="text-center mb-4">Our New Cars</h1>
   <div class="row">
-    @for (car of cars; track car.id.toString()) {
+    @for (car of carService.cars(); track car.id.toString()) {
     <div class="col-md-4 mb-4">
       <div class="card">
         <div class="overflow-hidden">
-          <a [routerLink]="['/car/', car.id]">
+          <a [routerLink]="['car', car.id]">
             <img
               [src]="car.photos[0].url"
               class="card-img-top img-thumbnail img"
