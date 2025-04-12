@@ -6,6 +6,8 @@ namespace CarStoreApp.Server.Interfaces.Repositories;
 
 public interface ICarRepository
 {
+    Task<bool> SaveChangesAsync();
+
     Task<CarDto> FindOneAsync(Expression<Func<Car, bool>> predicate);
 
     Task<IEnumerable<CarDto>> FindAsync(Expression<Func<Car, bool>> predicate);
@@ -15,5 +17,7 @@ public interface ICarRepository
     Task UpdateAsync(UpdateCarDto updateCarDto);
 
     Task<Car> DeleteAsync(Car car);
+
+    Task<CarPhotoDto> InsertPhotoAsync(int CarId, string Url,string Name);
 }
 

@@ -15,4 +15,8 @@ public interface ICarService :IBaseService
 
     Task<bool> CarExists(int id);
 
+    Task<IEnumerable<CarPhotoDto>> SaveCarPhotos(int carId, IList<IFormFile> photos);
+
 }
+
+

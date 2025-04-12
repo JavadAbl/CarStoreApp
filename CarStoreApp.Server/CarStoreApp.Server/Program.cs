@@ -12,10 +12,10 @@ builder.Services.AddControllers(op =>
 
 }).AddJsonOptions(op =>
 {
-   // Stop converting numbers
-   // op.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
-   
-         //  op.JsonSerializerOptions.UnknownPropertyHandling = System.Text.Json.Serialization.JsonUnknownPropertyHandling.Skip;
+    // Stop converting numbers
+    // op.JsonSerializerOptions.NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict;
+
+    //  op.JsonSerializerOptions.UnknownPropertyHandling = System.Text.Json.Serialization.JsonUnknownPropertyHandling.Skip;
 });
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
@@ -37,12 +37,13 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 });
+builder.Services.AddHttpContextAccessor();
 
 //App--------------------------------------------------------
 var app = builder.Build();
 app.UseMiddleware<ErrorMiddleware>();
 
-
+app.UseStaticFiles();
 app.UseCors("AllowAll");
 app.UseRouting();
 app.UseAuthentication();
@@ -63,4 +64,4 @@ app.MapControllers();
 }*/
 
 
-app.Run();
+await app.RunAsync();
